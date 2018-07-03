@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Model\Pronostic;
 
 class PronosticController extends Controller
 {
@@ -13,7 +14,8 @@ class PronosticController extends Controller
      */
     public function index()
     {
-        return 'Index pronostic';
+      $pronostics = Pronostic::all();
+        return view('index_pronostic', compact('pronostics'));
     }
 
     /**
@@ -23,7 +25,7 @@ class PronosticController extends Controller
      */
     public function create()
     {
-        return 'Page de création';
+        return view('add_pronostic');
     }
 
     /**
@@ -34,7 +36,8 @@ class PronosticController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Pronostic::create($request->all());
+        return redirect()->route('pronostic.index')->with('ok',__('Le pronostic a bien été enregistré.'));
     }
 
     /**

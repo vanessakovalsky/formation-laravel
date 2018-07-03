@@ -24,6 +24,10 @@ Route::resources([
   'game' => 'GameController'
 ]);
 
+Route::resource('pronostic', 'PronosticController')->only([
+    'create', 'edit'
+])->middleware('auth');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
