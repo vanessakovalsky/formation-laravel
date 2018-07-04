@@ -28,6 +28,8 @@ Route::resource('pronostic', 'PronosticController')->only([
     'create', 'edit'
 ])->middleware('auth');
 
+Route::get('/pronostic/{pronostic}/delete', 'PronosticController@destroy')->middleware('auth')->name('pronostic.delete');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

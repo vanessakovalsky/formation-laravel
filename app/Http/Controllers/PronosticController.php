@@ -57,9 +57,9 @@ class PronosticController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Pronostic $pronostic)
     {
-        //
+        return view('edit_pronostic', compact('pronostic'));
     }
 
     /**
@@ -69,9 +69,9 @@ class PronosticController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Pronostic $pronostic)
     {
-        //
+        $pronostic->update($request->all());
     }
 
     /**
@@ -80,8 +80,10 @@ class PronosticController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Pronostic $pronostic)
     {
-        //
+        $pronostic->delete();
+
+        return redirect()->route('pronostic.index');
     }
 }
