@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Pronostic;
+use App\Model\Game;
 
 class PronosticController extends Controller
 {
@@ -15,7 +16,11 @@ class PronosticController extends Controller
     public function index()
     {
       $pronostics = Pronostic::all();
-        return view('index_pronostic', compact('pronostics'));
+      foreach($pronostics as $pronostic){
+        $pronostic->match = Game::find($pronostic->game_id);
+        $prono_match[] = $pronostic;
+      }
+        return view('index_pronostic', compact('prono_match'));
     }
 
     /**

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePronosticsTable extends Migration
+class ForeignKey extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreatePronosticsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pronostics', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('score1');
-            $table->string('score2');
-            $table->integer('game_id')->unsigned();
-            $table->timestamps();
+        Schema::table('pronostics', function(Blueprint $table){
+          $table->foreign('game_id')->references('id')->on('games')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
         });
     }
 
@@ -29,6 +27,6 @@ class CreatePronosticsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pronostics');
+        //
     }
 }
