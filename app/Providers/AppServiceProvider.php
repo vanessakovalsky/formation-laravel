@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
           'delete' => 'supprimer'
         ]);*/
         Schema::defaultStringLength(191);
+        Blade::directive('toto', function($expression){
+          return strtoupper($expression);
+        });
     }
 
     /**

@@ -15,12 +15,13 @@ class PronosticController extends Controller
      */
     public function index()
     {
-      $pronostics = Pronostic::all();
-      foreach($pronostics as $pronostic){
-        $pronostic->match = Game::find($pronostic->game_id);
+      //$pronostics = Pronostic::all();
+      $pronostics = Pronostic::getPronosticsWithMatch();
+      /*foreach($pronostics as $pronostic){
+        $pronostic->prono_objet = Game::find($pronostic->game_id);
         $prono_match[] = $pronostic;
-      }
-        return view('index_pronostic', compact('prono_match'));
+      }*/
+        return view('index_pronostic', compact('pronostics'));
     }
 
     /**

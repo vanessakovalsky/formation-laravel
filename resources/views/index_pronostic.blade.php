@@ -1,4 +1,7 @@
-Index des pronostics
+@extends('layouts.app')
+
+@section('content')
+@toto('Index des pronostics')
 
 <table>
   <tn>
@@ -9,15 +12,15 @@ Index des pronostics
     <th>Modifier</th>
     <th>Supprimer</th>
   </tn>
-@foreach ($prono_match as $pronostic)
-{{ $pronostic->match->created_at }}
+@foreach ($pronostics as $pronostic)
 <tr>
  <td>{{ $pronostic->score1 }}</td>
  <td>{{ $pronostic->score2 }}</td>
  <td>{{ $pronostic->game_id }}</td>
- <td><a href="{{ route('pronostic.show', $pronostic->id)}}">Voir</a></td>
- <td><a href="{{ route('pronostic.edit', $pronostic->id)}}">Modifier</a></td>
- <td><a href="{{ route('pronostic.delete', $pronostic)}}">Supprimer</a></td>
+ <td><a href="{{ route('pronostic.show', $pronostic->p_id)}}">Voir</a></td>
+ <td><a href="{{ route('pronostic.edit', $pronostic->p_id)}}">Modifier</a></td>
+ <td><a href="{{ route('pronostic.delete', $pronostic->p_id)}}">Supprimer</a></td>
 </tr>
 @endforeach
 </table>
+@endsection
