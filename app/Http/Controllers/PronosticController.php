@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Pronostic;
 use App\Model\Game;
+use App\Events\ListPronoEvent;
 
 class PronosticController extends Controller
 {
@@ -15,6 +16,7 @@ class PronosticController extends Controller
      */
     public function index()
     {
+      $event_var = event(new ListPronoEvent);
       //$pronostics = Pronostic::all();
       $pronostics = Pronostic::getPronosticsWithMatch();
       /*foreach($pronostics as $pronostic){
