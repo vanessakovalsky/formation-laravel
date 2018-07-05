@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('app')
 @section('navbar')
+fdsqfhdskfqs
 <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">

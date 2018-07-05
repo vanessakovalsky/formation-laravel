@@ -18,6 +18,17 @@ class ForeignKey extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
         });
+        Schema::table('user_role', function(Blueprint $table){
+          $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
+        });
+        Schema::table('user_role', function(Blueprint $table){
+          $table->foreign('role_id')->references('id')->on('role')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
+        });
+
     }
 
     /**
