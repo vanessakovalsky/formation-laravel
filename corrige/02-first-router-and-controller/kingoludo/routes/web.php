@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JeuController;
+use App\Http\Controllers\BienvenueController;
 use Illuminate\Support\Facades\Request;
 
 /*
@@ -19,4 +19,6 @@ Route::get('/bienvenue/{name}', function (Request $request, $name) {
     return 'Bienvenue '.$name;
 });
 
-Route::get('/', [JeuController::class, 'index']);
+Route::get('/', [BienvenueController::class, 'index']);
+
+Route::resource('jeux', JeuController::class);

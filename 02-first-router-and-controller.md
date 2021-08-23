@@ -37,7 +37,44 @@ Route::get('/user/{id}', function (Request $request, $id) {
 * Ajouter à notre route welcome un parametre name et utiliser le pour afficher différents noms sur la page en fonction du paramètre passé en URL.
 
 
-## Création du contrôleur
+## Création du contrôleur BienvenueController
+
+* Pour générer notre controleur au bon endroit dans l'arborescence, nous utilisons artisan avec la commande suivante :
+```
+php artisan make:controller BienvenueController
+```
+* Le controleur vide est alors crée dans app/Http/Controllers/BienvenueController.php
+* Nous rajoutons alors la premiere méthode index
+* Il contient le code suivant :
+``` php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class BienvenueController extends Controller
+{
+    public function index()
+    {
+        return 'Bienvenue sur Kingoludo';
+    }
+}
+```
+* Si l'on détaille un peu : 
+    * On créé une classe BienvenueController qui étend la classe Controller standard du framework
+    * on déclare une fonction index qui ne prend pas de paramètres et renvoit simplement du texte. 
+* Il nous reste à crée la route pour associer un chemin à notre méthode index . 
+* Ajouter dans le fichier routes/web.php la ligne suivante (sans oublier d'importer avec use en début de fichier notre classe BienvenueController) :
+```php
+Route::get('/', [BienvenueController::class, 'index']);
+```
+* Ici nous faisons correspondre un chemi, avec un controleur et une méthode de celui-ci.
+* Tester en allant sur votre site en local, que s'affiche t'il ?
+
+-> Félicitations vous savez déclarer des routes et ajouter un controlleur dans votre application.
+
+## Création d'un controleur de ressource (CRUD)
 
 * Notre controlleur va déclarer les actions correspondants aux routes suivantes :
 
@@ -48,38 +85,11 @@ Route::get('/user/{id}', function (Request $request, $id) {
 | /jeu/edit/2 | Modifier un jeu avec l'ID 2  | edit  |
 | /jeu/delete/4 | Supprimer un jeu avec l'ID 4 | delete |
 
-* Pour générer notre controleur au bon endroit dans l'arborescence, nous utilisons artisan avec la commande suivante :
+* Nous allons utiliser artisan pour nous simplifier la vie 
 ```
-php artisan make:controller JeuController
+php artisan make:controller JeuController --resource
 ```
-* Le controleur vide est alors crée dans app/Http/Controllers/JeuController.php
-* Nous rajoutons alors la premiere méthode index
-* Il contient le code suivant :
-``` php
-<?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-class JeuController extends Controller
-{
-    public function index()
-    {
-        return 'index des jeux';
-    }
-}
-```
-* Si l'on détaille un peu : 
-    * On créé une classe JeuController qui étend la classe Controller standard du framework
-    * on déclare une fonction index qui ne prend pas de paramètres et renvoit simplement du texte. 
-* Il nous reste à crée la route pour associer un chemin à notre méthode index . 
-* Ajouter dans le fichier routes/web.php la ligne suivante (sans oublier d'importer avec use en début de fichier notre classe JeuController) :
+* Il est alors nécessaire de déclarer les méthodes à notre ressource, cela peut se faire en une seule ligne : 
 ```php
-Route::get('/', [JeuController::class, 'index']);
+Route::resource('jeux', JeuController::class);
 ```
-* Ici nous faisons correspondre un chemi, avec un controleur et une méthode de celui-ci.
-* Tester en allant sur votre site en local, que s'affiche t'il ?
-* Ajouter les 4 méthodes et routes que nous avions définis au démarrage comme objectifs dans ce controleur.
-
--> Félicitations vous savez déclarer des routes et ajouter un controlleur dans votre application.
