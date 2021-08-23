@@ -7,21 +7,34 @@ Cet exercice a pour objectif :
 
 ## Déclaration des routes 
 
-* La déclaration des routes se fait dans le fichier ***
-* Il es possible de déclarer deux types de routes :
+* La déclaration des routes se fait dans le fichier ***routes/web.php***
+* Le format de déclaration des routes est le suivant : 
+```php
+use Illuminate\Support\Facades\Route;
 
-* Pour notre application nous utilisons les routes sur notre controlleur Jeu.
-* Voici le code à ajouter dans le module.config.php
-``` php
-
+Route::get('/bienvenue', function () {
+    return 'Bienvenue';
+});
 ```
-* Si l'on détaille un peu le fichier :
-* * Déclaration de routes avec le tableau routeur et la clé routes
-* * L'identifiant de notre route est ici 'jeu'
-* * Notre route est de type Segment
-* * Le path utilisé est /jeu/ suivi de deux arguments
-* * Chaque argument à une contrainte 
-* * defaults permet de renvoyer vers l'action index du controleur JeuController si les options ne correspondent pas à ce qui est attendu ou si l'action demandée n'existe pas.
+* Ajouter cela au fichier que vous avez ouvert
+* Ajouter /bienvenue à l'url dans votre navigateur, que voyez vous afficher ?
+* Si l'on détaille la déclaration : 
+    * On utilise la Facade Route fournit par laravel
+    * Puis la méthode sur laquelle la route s'exécute (voir la liste des méthodes disponibles ici : https://laravel.com/docs/8.x/routing#available-router-methods ), ici on utilise Get
+    * en argument on lui donne deux éléments : 
+        * le chemin sur lequel cette route réagit
+        * la fonction qui est appelé sous forme d'une fonction anonyme
+* On peut également donner un paramètre à une route : 
+```php
+use Illuminate\Http\Request;
+
+Route::get('/user/{id}', function (Request $request, $id) {
+    return 'User '.$id;
+});
+```
+* Le paramètre est alors rajouté au chemin entre accolade (on peut le rendre optionnel en rajoutant un ? apres le nom du parametre)
+* Il est également récupéré au niveau de la fonction anonyme dans les paramètres avec le même nom que celui utilisé dans le chemin
+* Ajouter à notre route welcome un parametre name et utiliser le pour afficher différents noms sur la page en fonction du paramètre passé en URL.
 
 
 ## Création du contrôleur
@@ -30,26 +43,43 @@ Cet exercice a pour objectif :
 
 | URL  | Page  | Action  |
 |---|---|---|
-| /jeu  | Accueil(liste des albums)  | index  |
+| /jeu  | Accueil(liste des jeux)  | index  |
 | /jeu/add  | Ajout d'un jeu  | add  |
 | /jeu/edit/2 | Modifier un jeu avec l'ID 2  | edit  |
 | /jeu/delete/4 | Supprimer un jeu avec l'ID 4 | delete |
 
-* Le controlleur reprend le nom des action en rajoutant le mot clé Action derrière. Il se place dans le dossier /module/jeu/src/Controller/
-et se nomme JeuController.php.
+* Pour générer notre controleur au bon endroit dans l'arborescence, nous utilisons artisan avec la commande suivante :
+```
+php artisan make:controller JeuController
+```
+* Le controleur vide est alors crée dans app/Http/Controllers/JeuController.php
+* Nous rajoutons alors la premiere méthode index
 * Il contient le code suivant :
 ``` php
+<?php
 
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class JeuController extends Controller
+{
+    public function index()
+    {
+        return 'index des jeux';
+    }
+}
 ```
-* Vous pouvez accéder aux différentes actions avec les urls suivantes, et rajouter des choses dans vos fonctions pour les afficher sur les différentes pages .
+* Si l'on détaille un peu : 
+    * On créé une classe JeuController qui étend la classe Controller standard du framework
+    * on déclare une fonction index qui ne prend pas de paramètres et renvoit simplement du texte. 
+* Il nous reste à crée la route pour associer un chemin à notre méthode index . 
+* Ajouter dans le fichier routes/web.php la ligne suivante (sans oublier d'importer avec use en début de fichier notre classe JeuController) :
+```php
+Route::get('/', [JeuController::class, 'index']);
+```
+* Ici nous faisons correspondre un chemi, avec un controleur et une méthode de celui-ci.
+* Tester en allant sur votre site en local, que s'affiche t'il ?
+* Ajouter les 4 méthodes et routes que nous avions définis au démarrage comme objectifs dans ce controleur.
 
-| URL  | Méthode appelée  | 
-|---|---|
-| http://laminas-mvc-tutorial.localhost/jeu  | Jeu\Controller\JeuController::indexAction  |
-| http://laminas-mvc-tutorial.localhost/jeu/add  | Jeu\Controller\JeuController::addAction  |
-| http://laminas-mvc-tutorial.localhost/jeu/edit/2 |  Jeu\Controller\JeuController::editAction  |
-| http://laminas-mvc-tutorial.localhost/jeu/delete/4 | Jeu\Controller\JeuController::deleteAction |
-
-* Accèdez aux 4 pages et ajouter du contenu sur les pages au travers des fonctions (de simple echo pour commencer)
-
--> Félicitations vous savez déclarer des routes et ajouter un controlleur dans votre module.
+-> Félicitations vous savez déclarer des routes et ajouter un controlleur dans votre application.
