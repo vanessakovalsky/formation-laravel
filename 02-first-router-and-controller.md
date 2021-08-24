@@ -98,9 +98,7 @@ Route::resource('jeux', JeuController::class);
 
 * Afin d'utiliser les paramètres des requêtes HTTP nous récupérons un objet Request dans notre controleur (passer automatiquement par le routeur)
 ```php
-Route::get('/bienvenue/{name}', function (Request $request, $name) {
-    return view('bienvenue', ['name' => $name]);
-});
+Route::get('/bienvenue/{name}', [BienvenueController::class, 'bienvenue']);
 ```
 * Dans notre exemple, notre route passe l'objet Request avant de passer le paramètre
 * Du côté du controlleur nous allons pouvoir récupérer cet objet et accéder aux éléments de la requête :
@@ -126,7 +124,7 @@ https://laravel.com/docs/8.x/requests
 ```php
 public function show($id){
     $response_text = 'l id du jeu'. $id;
-    return response()->($response_text, 200)
+    return response($response_text, 200)
                     ->headers('Content-type','text/plain');
 }
 ```
