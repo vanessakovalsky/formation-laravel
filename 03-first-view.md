@@ -45,7 +45,9 @@ $data = [
         'nom' => 'Dice Forge'
     ]
 ];
-return view('jeu.liste',$data);
+return view('jeu.liste', [
+    'data' => $data ]
+    );
 ```
 * Le fichier jeu/liste.blade.php contient un tableau qui affiche les différents jeux. 
 ```php
@@ -53,10 +55,8 @@ return view('jeu.liste',$data);
     <body>
         <h1>Ma super liste de jeux :) </h1>
         <table>
-        @forelse($data as $jeux)
-            @foreach($jeux as $jeu)
-                <tr><td>{{ $jeu['nom'] }}</td></tr>
-            @endforeach
+        @forelse($data as $jeu)
+            <tr><td>{{ $jeu['nom'] }}</td></tr>
         @empty
             Pas de jeux
         @endforelse
