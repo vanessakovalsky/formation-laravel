@@ -93,3 +93,57 @@ php artisan make:controller JeuController --resource
 ```php
 Route::resource('jeux', JeuController::class);
 ```
+
+## Utiliser les paramètres des requêtes HTTP
+
+* Afin d'utiliser les paramètres des requêtes HTTP nous récupérons un objet Request dans notre controleur (passer automatiquement par le routeur)
+```php
+Route::get('/bienvenue/{name}', function (Request $request, $name) {
+    return view('bienvenue', ['name' => $name]);
+});
+```
+* Dans notre exemple, notre route passe l'objet Request avant de passer le paramètre
+* Du côté du controlleur nous allons pouvoir récupérer cet objet et accéder aux éléments de la requête :
+```php
+public function bienvenue(Request $request, $name)
+    {
+        $path = $request->path();
+        return 'Le chemin est : ' . $path . ' et nous souhaitons la bienvenue à ' .$name;
+    }
+```
+* La requête fournit de nombreuses informations sur l'URL, les headers et c'est également via la requête que nous allons par exemple récupérer les données envoyées depuis un formulaire : 
+https://laravel.com/docs/8.x/requests 
+
+## Définir sa propre réponse HTTP
+
+* Il est possible de renvoyer différents éléments en guise de réponse : 
+    * une simple chaine de caractère
+    * un réponse sous forme d'un objet `response` 
+    * une redirection
+    * une vue
+
+* Nous avons déjà renvoyer une chaine de caractère, voyons un peu ce que l'on peut faire avec la fonction response :
+```php
+public function show($id){
+    $response_text = 'l id du jeu'. $id;
+    return response()->($response_text, 200)
+                    ->headers('Content-type','text/plain');
+}
+```
+* Ici nous avons créer un objet réponse contenant :
+    * un texte 
+    * un code de status à 200
+    * un header de Content-type
+* Il est possible de définir autant de headers que l'on souhaite à sa réponse, soit en appelant headers, soit sous forme d'un tableau avec withHeaders : https://laravel.com/docs/8.x/responses#attaching-headers-to-responses 
+
+* Il est également possible de rediriger l'utilisateur avec redirect() :
+```php
+Route::get('/bienvenue', function () {
+    return redirect('home/bienvenue');
+});
+```
+
+* Vous savez maintenant manipuler les routes, les controleurs, les requêtes et les réponses
+
+## Pour aller plus loin 
+* Vous pouvez construire le contrôleur qui va permettre de gérer les collections et ses routes
