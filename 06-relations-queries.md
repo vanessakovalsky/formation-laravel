@@ -85,7 +85,7 @@ php artisan make:migration UpdateJeuAddCategorie
 ```php
 public function show($id){
     $jeu = Jeu::find($id);
-    $categorie = $jeu->categorie->name;    
+    $categorie = Categorie::find($jeu->categorie)->name;    
     return view('show', compact('jeu', 'categorie'));
 }
 ```
