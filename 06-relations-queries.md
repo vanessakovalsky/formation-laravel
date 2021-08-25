@@ -125,14 +125,14 @@ php artisan make:migration CreateJeuCollectionTable
 ```php
 public function collections()
 {
-    return $this->belongsToMany(Collection::class);
+    return $this->belongsToMany(Collection::class, 'jeu_collection');
 }
 ```
 * Sur le modèle Collection on ajoute la méthode : 
 ```php
 public function jeus()
 {
-    return $this->belongsToMany(Jeu::class);
+    return $this->belongsToMany(Jeu::class, 'jeu_collection');
 }
 ```
 * On vient alors ajouter dans le formulaire de Jeu notre nouveau item collection 
