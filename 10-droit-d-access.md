@@ -144,18 +144,23 @@ class JeuPolicy
 ```
 * On utilise notre police dans le controleur : 
 ```php
-    public function index()
+
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        if (Gate::authorize('viewAny')){
-            $jeux = Jeu::getAllGamesWithCategory();
-            return view('jeu.index',['jeux' => $jeux]);
-        }
+        $this->authorizeResource(Jeu::class, 'jeu');
     }
 ```
-* La fonction authorize de la facade Gate permet d'appeler notre fonction dans notre policy. 
+* La fonction authorizeResource permet de faire le lien avec le modèle qui est lié à la police d'accès. 
 * Il reste à définir les différentes règles dans les fonctions et à les appeler dans les fonctions de notre controleur.
 
 ## Pour aller plus loin 
 
 * Ajouters les champs de profils sur le modèle User
 * Limiter les droits en fonction du rôle de l'utilisateur
+
+
