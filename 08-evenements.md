@@ -13,7 +13,7 @@ Cet exercice a pour objectif
 php artisan make:event JeuSaved
 ```
 * Aucune modification n'est nécessaire dans cette classe
-* On va associer notre évènement JeuSaved à l'élement saved du cycle de vie Eloquent sur notre modèle Jeu, en ajoutant la variable dispatchesEvents :
+* On va associer notre évènement JeuSaved à l'élement saved du cycle de vie Eloquent sur notre modèle Jeu, en ajoutant la variable dispatchesEvents dans le modèle concerné :
 ```php
 protected $dispatchesEvents = [
     'saved' => JeuSaved::class,
