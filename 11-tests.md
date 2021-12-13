@@ -28,11 +28,88 @@ php artisan make:test JeuTest
 * Ensuite pour chacune des étapes de notre plan de test défini ci-dessus, nous allons écrire une méthode test. Chacune de ces méthodes va contenir plusieurs assertions pour vérifier les différents éléments de l'étape (par exemple le code statut de la page, la présence d'un titre, d'une phrase, d'un contenu ...). Pour cela on utilise les [assertions de PHPUnit](https://phpunit.readthedocs.io/fr/latest/assertions.html)
 * Laravel a également ajouter [ses propres assertions](https://laravel.com/docs/8.x/http-tests) que vous pouvez utiliser pour gagner du temps sur les vues, ou d'autres composants de Laravel
 
-## Tester notre base de données
+## Tester notre base de données en créant de faux jeux de données
 
-https://laravel.com/docs/8.x/database-testing
+* Afin de pouvoir tester le comportement de notre base de données, nous allons voir comment utiliser différents outils.
+* Afin de remettre à 0 la base de données après chaque test, nous allons ajouter un trait RefreshDatabase à notre classe de tests : 
+```php
+namespace Tests\Feature;
 
-## Simuler des comportements (Mock)
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\TestCase;
 
-https://laravel.com/docs/8.x/mocking
-https://laravel.sillo.org/cours-laravel-8-les-tests/
+class ExampleTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function test_basic_example()
+    {
+        $response = $this->get('/');
+
+        // ...
+    }
+}
+```
+* Ensuite nous allons créer une factory, dont le rôle est de générer des quantités importantes de fausses données sans que nous ayons besoin de les définir à la main. Pour cela nous utilions artisan
+```
+php artisan make:factory JeuFactory
+```
+* La factory permet alors d'utiliser la [bibliothèque PHP Faker](https://github.com/FakerPHP/Faker) pour générer des données à nos propriétés : 
+```php
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
+class JeuFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'nom' => $this->faker->name(),
+        ];
+    }
+}
+```
+* On va pouvoir lier la factory à un modèle via la variable protégé $modèle
+```php
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Flight::class;
+```
+* Nous pouvons maintenant utiliser notre factory dans nos tests :
+```php
+use App\Models\User;
+
+public function test_models_can_be_persisted()
+{
+    // Create a single App\Models\User instance...
+    $user = User::factory()->create();
+
+    // Create three App\Models\User instances...
+    $users = User::factory()->count(3)->create();
+
+    // Use model in tests...
+}
+```
+* Retrouver la [documentation des factories](https://laravel.com/docs/8.x/database-testing) pour obtenir plus d'information sur leur utilisation.
+
+## Pour aller plus loin
+
+De nombreux autres sujets liés aux tests peuvent être approfondies : 
+* [Simuler des comportements (Mock)](https://laravel.com/docs/8.x/mocking)
+* [Exécuter des tests navigateurs avec Laravel Dusk](https://laravel.com/docs/8.x/dusk)
