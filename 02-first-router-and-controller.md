@@ -125,7 +125,7 @@ https://laravel.com/docs/8.x/requests
 public function show($id){
     $response_text = 'l id du jeu'. $id;
     return response($response_text, 200)
-                    ->headers('Content-type','text/plain');
+                    ->header('Content-type','text/plain');
 }
 ```
 * Ici nous avons créer un objet réponse contenant :
